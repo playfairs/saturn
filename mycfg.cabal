@@ -1,0 +1,22 @@
+cabal-version: 3.0
+name:          saturn
+version:       0.1.0.0
+synopsis:      A declarative configuration management system
+description:   A declarative configuration manager inspired by NixOS, Home Manager, GNU Stow, and modern infrastructure-as-code tools
+category:      System
+homepage:      https://github.com/playfairs/saturn
+bug-reports:   https://github.com/playfairs/saturn/issues
+author:        playfairs
+maintainer:    root@playfairs.cc
+copyright:     2026 Saturn
+license:       GLPv3
+license-file:  LICENSE
+build-type:    Simple
+extra-source-files:
+    README.md
+    CHANGELOG.md
+
+source-repository head
+  type: git
+  location: https://github.com/playfairs/saturn
+

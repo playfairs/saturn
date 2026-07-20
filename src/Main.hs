@@ -6,6 +6,6 @@ import Mycfg.Logging.Logger (initLogger)
 
 main :: IO ()
 main = do
-  logger <- initLogger
-  options <- parseOptions
-  runEngine logger options
+    logger <- initLogger
+    options <- parseOptions
+    runEngine logger options

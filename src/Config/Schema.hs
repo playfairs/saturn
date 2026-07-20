@@ -5,13 +5,20 @@ module Mycfg.Config.Schema (
     ConfigSchema (..),
     FieldDefinition (..),
     FieldType (..),
+    RingSchema (..),
+    RingInput (..),
+    RingModule (..),
+    RingProfile (..),
     validateSchema,
     getDefaultSchema,
+    defaultRingSchema,
 ) where
 
 import qualified Data.Map as Map
 import Data.Set (Set)
 import Data.Text (Text)
+import GHC.Generics (Generic)
+import Data.Aeson (FromJSON, ToJSON)
 
 import Mycfg.Config.Types
 
@@ -49,8 +56,58 @@ data ValidationRule
     | OneOf [Text]
     deriving (Show, Eq)
 
+data RingSchema = RingSchema
+    { ringName :: Text
+    , ringDescription :: Maybe Text
+    , ringInputs :: [RingInput]
+    , ringModules :: [RingModule]
+    , ringProfiles :: [RingProfile]
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingSchema
+instance FromJSON RingSchema
+
+data RingInput = RingInput
+    { inputName :: Text
+    , inputUrl :: Text
+    , inputType :: Text
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingInput
+instance FromJSON RingInput
+
+data RingModule = RingModule
+    { modulePath :: Text
+    , moduleEnabled :: Bool
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingModule
+instance FromJSON RingModule
+
+data RingProfile = RingProfile
+    { profileName :: Text
+    , profileModules :: [Text]
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingProfile
+instance FromJSON RingProfile
+
 validateSchema :: Config -> ConfigSchema -> Either Text ()
 validateSchema config schema = Right ()
+
+defaultRingSchema :: RingSchema
+defaultRingSchema =
+    RingSchema
+        { ringName = "default"
+        , ringDescription = Just "Default Saturn Ring"
+        , ringInputs = []
+        , ringModules = []
+        , ringProfiles = []
+        }
 
 getDefaultSchema :: ConfigSchema
 getDefaultSchema =

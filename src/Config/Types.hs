@@ -10,6 +10,11 @@ module Mycfg.Config.Types (
     ServiceConfig (..),
     ModuleConfig (..),
     ProfileConfig (..),
+    RingConfig (..),
+    RingInputConfig (..),
+    RingModuleConfig (..),
+    RingProfileConfig (..),
+    RingOutputConfig (..),
     FileOperation (..),
     ServiceState (..),
     ConfigPath,
@@ -39,6 +44,7 @@ data Config = Config
     , services :: Map Text ServiceConfig
     , modules :: [ModuleName]
     , profiles :: Map ProfileName ProfileConfig
+    , ring :: Maybe RingConfig
     }
     deriving (Show, Eq, Generic)
 
@@ -113,6 +119,56 @@ data ProfileConfig = ProfileConfig
 
 instance ToJSON ProfileConfig
 instance FromJSON ProfileConfig
+
+data RingConfig = RingConfig
+    { ringName :: Text
+    , ringDescription :: Maybe Text
+    , ringInputs :: [RingInputConfig]
+    , ringModules :: [RingModuleConfig]
+    , ringProfiles :: [RingProfileConfig]
+    , ringOutputs :: [RingOutputConfig]
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingConfig
+instance FromJSON RingConfig
+
+data RingInputConfig = RingInputConfig
+    { inputName :: Text
+    , inputUrl :: Text
+    , inputType :: Text
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingInputConfig
+instance FromJSON RingInputConfig
+
+data RingModuleConfig = RingModuleConfig
+    { modulePath :: Text
+    , moduleEnabled :: Bool
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingModuleConfig
+instance FromJSON RingModuleConfig
+
+data RingProfileConfig = RingProfileConfig
+    { profileName' :: Text
+    , profileModules' :: [Text]
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingProfileConfig
+instance FromJSON RingProfileConfig
+
+data RingOutputConfig = RingOutputConfig
+    { outputName :: Text
+    , outputPath :: Text
+    }
+    deriving (Show, Eq, Generic)
+
+instance ToJSON RingOutputConfig
+instance FromJSON RingOutputConfig
 
 data FileOperation
     = Symlink

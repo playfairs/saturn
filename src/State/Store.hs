@@ -128,7 +128,7 @@ withStateStore action = do
 getDefaultStateDirectory :: IO (Path Abs Dir)
 getDefaultStateDirectory = do
     homeDir <- getHomeDirectory
-    case parseAbsDir (homeDir </> ".local" </> "share" </> "mycfg") of
+    case parseAbsDir (homeDir </> ".saturn" </> "state") of
         Left _ -> error "Failed to parse default state directory"
         Right dir -> return dir
 

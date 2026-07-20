@@ -24,6 +24,7 @@ defaultConfig =
         , services = Map.empty
         , modules = []
         , profiles = Map.fromList [("default", defaultProfileConfig)]
+        , ring = Just defaultRingConfig
         }
 
 emptyConfig :: Config
@@ -35,6 +36,7 @@ emptyConfig =
         , services = Map.empty
         , modules = []
         , profiles = Map.empty
+        , ring = Nothing
         }
 
 defaultSystemConfig :: SystemConfig
@@ -71,4 +73,15 @@ defaultProfileConfig =
         , description = "Default configuration profile"
         , modules = []
         , extends = []
+        }
+
+defaultRingConfig :: RingConfig
+defaultRingConfig =
+    RingConfig
+        { ringName = "default"
+        , ringDescription = Just "Default Saturn Ring"
+        , ringInputs = []
+        , ringModules = []
+        , ringProfiles = []
+        , ringOutputs = []
         }

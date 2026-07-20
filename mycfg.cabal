@@ -23,6 +23,78 @@ build-type:         Simple
 extra-source-files:
     README
 
+-- library
+--     exposed-modules:
+--         Mycfg.CLI.Commands
+--         Mycfg.CLI.Help
+--         Mycfg.CLI.Parser
+--         Mycfg.Config.Defaults
+--         Mycfg.Config.Parser
+--         Mycfg.Config.Schema
+--         Mycfg.Config.Types
+--         Mycfg.Config.Validator
+--         Mycfg.Core.Apply
+--         Mycfg.Core.Diff
+--         Mycfg.Core.Engine
+--         Mycfg.Core.Planner
+--         Mycfg.Core.Rollback
+--         Mycfg.Errors.Recovery
+--         Mycfg.Errors.Render
+--         Mycfg.Errors.Types
+--         Mycfg.Filesystem.Atomic
+--         Mycfg.Filesystem.Copy
+--         Mycfg.Filesystem.Paths
+--         Mycfg.Filesystem.Permissions
+--         Mycfg.Filesystem.Symlink
+--         Mycfg.Logging.Events
+--         Mycfg.Logging.Format
+--         Mycfg.Logging.Logger
+--         Mycfg.Modules.Loader
+--         Mycfg.Modules.Registry
+--         Mycfg.Modules.Resolver
+--         Mycfg.State.Generations
+--         Mycfg.State.History
+--         Mycfg.State.Manifest
+--         Mycfg.State.Snapshot
+--         Mycfg.State.Store
+--         Mycfg.Utils.Hash
+--         Mycfg.Utils.Process
+--         Mycfg.Utils.Text
+--         Mycfg.Utils.Time
+--     hs-source-dirs:   src
+--     default-language: Haskell2010
+--     build-depends:
+--         base >=4.14 && <5,
+--         aeson,
+--         bytestring,
+--         containers,
+--         cryptonite,
+--         directory,
+--         prettyprinter,
+--         prettyprinter-ansi-terminal,
+--         filepath,
+--         mtl,
+--         optparse-applicative,
+--         path,
+--         process,
+--         random,
+--         stm,
+--         text,
+--         time,
+--         toml-parser,
+--         transformers,
+--         unix,
+--         uuid
+
+-- executable saturn
+--     main-is:          Main.hs
+--     hs-source-dirs:   src
+--     default-language: Haskell2010
+--     build-depends:
+--         base >=4.14 && <5,
+--         saturn,
+--         text
+
 source-repository head
     type:     git
     location: https://github.com/playfairs/saturn

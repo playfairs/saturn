@@ -26,6 +26,7 @@ import Data.Time (UTCTime)
 import GHC.Generics (Generic)
 import Path (Abs, Dir, File, Path, toFilePath)
 
+import Mycfg.Config.Defaults
 import Mycfg.Config.Parser
 import Mycfg.Config.Types
 import Mycfg.Config.Validator
@@ -186,15 +187,30 @@ executeEngineOperation engine = do
 loadDefaultConfiguration :: IO (Either MycfgError Config)
 loadDefaultConfiguration = do
     homeDir <- getHomeDirectory
-    let configPath = homeDir </> ".config" </> "mycfg" </> "config.toml"
+    let ringRoot = homeDir </> ".saturn"
+        ringConfigPath = ringRoot </> "ring.saturn"
+        legacyConfigPath = homeDir </> ".config" </> "mycfg" </> "config.toml"
 
-    exists <- doesFileExist configPath
-    if exists
+    ringExists <- doesFileExist (toFilePath ringConfigPath)
+    if ringExists
         then do
-            case parseAbsFile configPath of
-                Left _ -> return $ Left $ ParseError $ InvalidToml undefined "Invalid config path"
-                Right path -> parseConfig path
-        else return $ Right defaultConfig
+            case parseAbsFile (toFilePath ringConfigPath) of
+                Left _ -> return $ Left $ ParseError $ InvalidToml undefined "Invalid ring path"
+                Right path -> do
+                    parseResult <- parseConfig path
+                    case parseResult of
+                        Left err -> return $ Left err
+                        Right cfg -> return $ Right cfg{ring = Just (fromMaybe defaultRingConfig (ring cfg))}
+        else do
+            legacyExists <- doesFileExist legacyConfigPath
+            if legacyExists
+                then do
+                    case parseAbsFile legacyConfigPath of
+                        Left _ -> return $ Left $ ParseError $ InvalidToml undefined "Invalid config path"
+                        Right path -> parseConfig path
+                else do
+                    let ring = defaultRingConfig
+                    return $ Right defaultConfig{ring = Just ring}
 
 shutdownEngine :: Engine -> IO EngineResult
 shutdownEngine engine = do

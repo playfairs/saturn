@@ -57,6 +57,7 @@ configCodec =
         <*> Toml.tableMap Toml.text serviceCodec "services" .= services
         <*> Toml.list Toml.text "modules" .= modules
         <*> Toml.tableMap Toml.text profileCodec "profiles" .= profiles
+        <*> Toml.table ringCodec "ring" .= ring
 
 systemCodec :: TomlCodec SystemConfig
 systemCodec =
@@ -89,6 +90,41 @@ profileCodec =
         <*> Toml.text .= description
         <*> Toml.list Toml.text .= modules
         <*> Toml.list Toml.text `Toml.dioptional` "extends" .= extends
+
+ringCodec :: TomlCodec RingConfig
+ringCodec =
+    RingConfig
+        <$> Toml.text `Toml.dioptional` "name" .= ringName
+        <*> Toml.text `Toml.dioptional` "description" .= ringDescription
+        <*> Toml.list ringInputCodec `Toml.dioptional` "inputs" .= ringInputs
+        <*> Toml.list ringModuleCodec `Toml.dioptional` "modules" .= ringModules
+        <*> Toml.list ringProfileCodec `Toml.dioptional` "profiles" .= ringProfiles
+        <*> Toml.list ringOutputCodec `Toml.dioptional` "outputs" .= ringOutputs
+
+ringInputCodec :: TomlCodec RingInputConfig
+ringInputCodec =
+    RingInputConfig
+        <$> Toml.text .= inputName
+        <*> Toml.text .= inputUrl
+        <*> Toml.text .= inputType
+
+ringModuleCodec :: TomlCodec RingModuleConfig
+ringModuleCodec =
+    RingModuleConfig
+        <$> Toml.text .= modulePath
+        <*> Toml.bool .= moduleEnabled
+
+ringProfileCodec :: TomlCodec RingProfileConfig
+ringProfileCodec =
+    RingProfileConfig
+        <$> Toml.text .= profileName'
+        <*> Toml.list Toml.text .= profileModules'
+
+ringOutputCodec :: TomlCodec RingOutputConfig
+ringOutputCodec =
+    RingOutputConfig
+        <$> Toml.text .= outputName
+        <*> Toml.text .= outputPath
 
 fileOperationCodec :: TomlCodec FileOperation
 fileOperationCodec = Toml.enumBounded "operation"

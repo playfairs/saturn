@@ -209,7 +209,7 @@ isLockStale lockContent =
                 Just timestamp -> do
                     now <- getCurrentTime
                     let age = diffUTCTime now timestamp
-                    age > 300 -- 5 minutes
+                    age > 500
         _ -> True
 
 cleanupStateStore :: StateStore -> IO (Either StateStoreError ())
